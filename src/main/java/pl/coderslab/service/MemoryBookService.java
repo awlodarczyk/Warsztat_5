@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MemoryBookService {
+public class MemoryBookService implements BookService{
     private List<Book> list;
 
     public MemoryBookService() {

@@ -4,16 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.model.Book;
 import pl.coderslab.model.JsonResponse;
-import pl.coderslab.service.MemoryBookService;
-
+import pl.coderslab.service.BookService;
 import java.util.List;
 
 @RestController
 @RequestMapping("/books")
 public class BookController {
 
+
+    private final BookService bookService;
+
     @Autowired
-    MemoryBookService bookService;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     @RequestMapping("/hello")
     public String hello() {
