@@ -1,30 +1,18 @@
 package pl.coderslab.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class JsonResponse {
 
     private String response;
     private Object object;
-    public JsonResponse(String response,Object obj) {
-        this.response = response;
-        this.object = obj;
-    }
     public JsonResponse(String response) {
         this.response = response;
         this.object = null;
-    }
-    public Object getObject() {
-        return object;
-    }
-
-    public void setObject(Object object) {
-        this.object = object;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
     }
 }

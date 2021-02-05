@@ -36,19 +36,11 @@ public class BookController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Book bookById(@PathVariable Long id) {
-        return bookService.loadById(id);
+        return bookService.loadById(id).orElseThrow(()->new RuntimeException("Non matching book"));
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public JsonResponse create(@RequestBody Book book) {
-
-        long lastId = 0;
-        for (Book b : bookService.getList()) {
-            if (lastId < b.getId()) {
-                lastId = b.getId();
-            }
-        }
-        book.setId(++lastId);
         bookService.add(book);
         return new JsonResponse("created new book", book);
     }
@@ -95,23 +87,18 @@ public class BookController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public JsonResponse update(@PathVariable Long id,
                                @RequestBody Book book) {
-
-        for (Book b : bookService.getList()){
-            if (b.getId().equals(id)) {
-                b.setIsbn(book.getIsbn());
-                b.setAuthor(book.getAuthor());
-                b.setPublisher(book.getPublisher());
-                b.setTitle(book.getTitle());
-                b.setType(book.getType());
-                book = b;
-            }
-        }
+        book.setId(id);
+        bookService.update(book);
         return new JsonResponse("updated book",book);
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public JsonResponse create(@PathVariable Long id) {
 
-        bookService.remove(bookService.loadById(id));
-        return new JsonResponse("removed book id: "+id);
+        if(bookService.remove(bookService.loadById(id).orElseThrow(()->new RuntimeException("Non matching book")))){
+            return new JsonResponse("removed book id: "+id);
+        }else{
+            return new JsonResponse("cannot remove book id: "+id);
+        }
+
     }
 }

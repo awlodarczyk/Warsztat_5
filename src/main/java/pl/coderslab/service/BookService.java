@@ -3,11 +3,13 @@ package pl.coderslab.service;
 import pl.coderslab.model.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService {
+
     List<Book> getList();
-    Book loadById(long id);
-    void setList(List<Book> list);
-    void remove(Book book);
-    void add(Book book);
+    Optional<Book> loadById(long id);
+    boolean remove(Book book);
+    Book update(Book book);
+    Book add(Book book);
 }
